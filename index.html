@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebP Converter</title>
+  <style>
+    body {
+      text-align: center;
+      padding: 20px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-upload {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4c9aff;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .file-upload:hover {
+      background-color: #3885e3;
+    }
+
+    .preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .preview-image {
+      width: 150px;
+      height: auto;
+      margin: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .convert-buttons {
+      margin-top: 20px;
+    }
+
+    .convert-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #43a047;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .convert-button:hover {
+      background-color: #388e3c;
+    }
+
+    .download-link {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>WebP Converter</h1>
+  <input type="file" id="fileInput" accept=".webp">
+  <label for="fileInput" class="file-upload">Upload WebP Image</label>
+  <br>
+  <br>
+  <div class="preview-container" id="previewContainer"></div>
+  <br>
+  <div class="convert-buttons">
+    <button onclick="convertToPNG()" class="convert-button">Convert to PNG</button>
+    <button onclick="convertToJPG()" class="convert-button">Convert to JPG</button>
+  </div>
+  <br>
+  <br>
+  <a id="downloadLink" class="download-link" href="#" download></a>
+
+  <script>
+    function convertToPNG() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.className = "preview-image";
+          const previewContainer = document.getElementById("previewContainer");
+          previewContainer.innerHTML = "";
+          previewContainer.appendChild(img);
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          const link = document.getElementById("downloadLink");
+          link.href = canvas.toDataURL("image/png");
+          link.download = "converted.png";
+          link.click();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function convertToJPG() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.className = "preview-image";
+          const previewContainer = document.getElementById("previewContainer");
+          previewContainer.innerHTML = "";
+          previewContainer.appendChild(img);
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          const link = document.getElementById("downloadLink");
+          link.href = canvas.toDataURL("image/jpeg", 1);
+          link.download = "converted.jpg";
+          link.click();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</body>
+</html>
